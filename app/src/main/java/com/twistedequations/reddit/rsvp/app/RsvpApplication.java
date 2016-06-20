@@ -3,6 +3,7 @@ package com.twistedequations.reddit.rsvp.app;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
+import android.util.Log;
 
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import com.twistedequations.reddit.rsvp.rx.DefaultSchedulers;
 import com.twistedequations.reddit.rsvp.rx.RxSchedulers;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,7 +43,13 @@ public class RsvpApplication extends Application {
     Converters.registerAll(builder);
     gson = builder.create();
 
-    OkHttpClient okHttpClient = new OkHttpClient();
+    final HttpLoggingInterceptor loggingInterceptor =
+        new HttpLoggingInterceptor(message -> Log.i("HttpLoggingInterceptor", message))
+        .setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        .addNetworkInterceptor(loggingInterceptor)
+        .build();
 
     final Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://www.reddit.com/")
