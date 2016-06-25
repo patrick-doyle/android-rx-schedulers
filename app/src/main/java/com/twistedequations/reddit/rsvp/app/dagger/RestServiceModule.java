@@ -1,8 +1,8 @@
 package com.twistedequations.reddit.rsvp.app.dagger;
 
 import com.google.gson.Gson;
-import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.mvl.rx.RxSchedulers;
+import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 
 import javax.inject.Named;
 

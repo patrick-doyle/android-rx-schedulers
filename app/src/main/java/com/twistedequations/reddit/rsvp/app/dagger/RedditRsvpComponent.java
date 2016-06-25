@@ -3,8 +3,8 @@ package com.twistedequations.reddit.rsvp.app.dagger;
 import android.content.Context;
 
 import com.squareup.picasso.Picasso;
-import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.mvl.rx.RxSchedulers;
+import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 
 import dagger.Component;
 

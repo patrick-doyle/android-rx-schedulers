@@ -1,6 +1,6 @@
 package com.twistedequations.reddit.rsvp.screens.home;
 
-import com.twistedequations.mvl.MVLActivity;
+import com.twistedequations.mvl.MVLBaseActivity;
 import com.twistedequations.reddit.rsvp.app.RsvpApplication;
 import com.twistedequations.reddit.rsvp.screens.home.dagger.DaggerHomeActivityComponent;
 import com.twistedequations.reddit.rsvp.screens.home.dagger.HomeModule;
@@ -9,7 +9,7 @@ import com.twistedequations.reddit.rsvp.screens.home.mvp.HomeView;
 
 import javax.inject.Inject;
 
-public class HomeActivity extends MVLActivity {
+public class HomeActivity extends MVLBaseActivity {
 
   @Inject
   HomeView homeView;

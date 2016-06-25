@@ -1,8 +1,8 @@
 package com.twistedequations.mvl;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.twistedequations.mvl.internal.MVLActivityCore;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
@@ -12,7 +12,7 @@ import java.util.Set;
 import rx.Observable;
 import rx.functions.Action1;
 
-public abstract class MVLCompatActivity extends AppCompatActivity implements MVLActivity {
+public abstract class MVLBaseActivity extends Activity implements MVLActivity {
 
     private final MVLActivityCore mvlActivityCore = new MVLActivityCore(this);
 

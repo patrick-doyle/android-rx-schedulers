@@ -1,8 +1,8 @@
 package com.twistedequations.reddit.rsvp.screens.home.mvp;
 
 import com.twistedequations.mvl.lifecycle.CreateLifecycle;
-import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 import com.twistedequations.mvl.rx.RxSchedulers;
+import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 
 import java.util.List;
 

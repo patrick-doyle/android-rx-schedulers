@@ -3,7 +3,7 @@ package com.twistedequations.reddit.rsvp.screens.detail;
 import android.content.Context;
 import android.content.Intent;
 
-import com.twistedequations.mvl.MVLActivity;
+import com.twistedequations.mvl.MVLBaseActivity;
 import com.twistedequations.reddit.rsvp.app.RsvpApplication;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 import com.twistedequations.reddit.rsvp.screens.detail.dagger.DaggerPostActivityComponent;
@@ -13,7 +13,7 @@ import com.twistedequations.reddit.rsvp.screens.detail.mvp.PostLifecycle;
 
 import javax.inject.Inject;
 
-public class PostActivity extends MVLActivity {
+public class PostActivity extends MVLBaseActivity {
 
     public static final String REDDIT_ITEM_KEY = "redditItem";
 

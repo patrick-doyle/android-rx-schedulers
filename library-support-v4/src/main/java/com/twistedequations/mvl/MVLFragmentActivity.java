@@ -4,89 +4,78 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
-import com.twistedequations.mvl.lifecycle.CreateLifecycle;
+import com.twistedequations.mvl.internal.MVLActivityCore;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
-import com.twistedequations.mvl.lifecycle.MemoryLifecycle;
-import com.twistedequations.mvl.lifecycle.ResumeLifecycle;
-import com.twistedequations.mvl.lifecycle.StartLifecycle;
-import com.twistedequations.mvl.internal.CollectionFuncs;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import rx.Observable;
 import rx.functions.Action1;
-import rx.subjects.ReplaySubject;
 
-public abstract class MVLFragmentActivity extends FragmentActivity {
+public abstract class MVLFragmentActivity extends FragmentActivity  implements MVLActivity {
 
-    private final Bundle state = new Bundle();
-    private final ReplaySubject<Bundle> prevStateSubject = ReplaySubject.create(1);
-    private final Set<Lifecycle> lifecycles = new HashSet<>();
+    private final MVLActivityCore mvlActivityCore = new MVLActivityCore(this);
 
     @Override
-    protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Observable.just(savedInstanceState)
-                .filter(state -> state != null)
-                .subscribe(prevStateSubject);
-        onRegisterLifecycles();
-        CollectionFuncs.forEachType(lifecycles, CreateLifecycle.class, CreateLifecycle::onCreate);
+    protected final void onCreate(@Nullable Bundle bundle) {
+        super.onCreate(bundle);
+        mvlActivityCore.onCreate(bundle);
     }
 
     @Override
     protected final void onStart() {
         super.onStart();
-        CollectionFuncs.forEachType(lifecycles, StartLifecycle.class, StartLifecycle::onStart);
+        mvlActivityCore.onStart();
     }
 
     @Override
     protected final void onRestart() {
         super.onRestart();
-        CollectionFuncs.forEachType(lifecycles, StartLifecycle.class, StartLifecycle::onRestart);
+        mvlActivityCore.onRestart();
     }
 
     @Override
     protected final void onResume() {
         super.onResume();
-        CollectionFuncs.forEachType(lifecycles, ResumeLifecycle.class, ResumeLifecycle::onResume);
+        mvlActivityCore.onResume();
     }
 
     @Override
     protected final void onPause() {
         super.onPause();
-        CollectionFuncs.forEachType(lifecycles, ResumeLifecycle.class,  ResumeLifecycle::onPause);
+        mvlActivityCore.onPause();
     }
 
     @Override
     protected final void onStop() {
         super.onStop();
-        CollectionFuncs.forEachType(lifecycles, StartLifecycle.class, StartLifecycle::onStop);
+        mvlActivityCore.onStop();
     }
 
     @Override
     protected final void onDestroy() {
         super.onDestroy();
-        CollectionFuncs.forEachType(lifecycles, CreateLifecycle.class, CreateLifecycle::onDestroy);
+        mvlActivityCore.onDestroy();
     }
 
     @Override
     public final void onLowMemory() {
         super.onLowMemory();
-        CollectionFuncs.forEachType(lifecycles, MemoryLifecycle.class, MemoryLifecycle::onLowMemory);
+        mvlActivityCore.onLowMemory();
     }
 
     @Override
     public final void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        CollectionFuncs.forEachType(lifecycles, MemoryLifecycle.class, memoryLifecycle -> memoryLifecycle.onTrimMemory(level));
+        mvlActivityCore.onTrimMemory(level);
     }
 
     /**
      * @return Observable that emits the restored state or will call on complete ir no item exists
      */
+    @Override
     public Observable<Bundle> getPrevState() {
-        return prevStateSubject.asObservable().take(1);
+        return mvlActivityCore.getPrevState();
     }
 
     /**
@@ -98,8 +87,9 @@ public abstract class MVLFragmentActivity extends FragmentActivity {
      * </code>
      * @param updateFunction the function called into order to save the state
      */
+    @Override
     public void updateSaveState(Action1<Bundle> updateFunction) {
-        updateFunction.call(state);
+        mvlActivityCore.updateSaveState(updateFunction);
     }
 
     /**
@@ -110,18 +100,18 @@ public abstract class MVLFragmentActivity extends FragmentActivity {
      *     </pre>
      * </code>
      */
-    protected void onRegisterLifecycles() {
+    public void onRegisterLifecycles() {
 
     }
 
     @Override
     public final void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putAll(state);
+        super.onSaveInstanceState(mvlActivityCore.onSaveInstanceState());
     }
 
+    @Override
     public Set<Lifecycle> getLifecycles() {
-        return lifecycles;
+        return mvlActivityCore.getLifecycles();
     }
 
     /**
@@ -130,11 +120,11 @@ public abstract class MVLFragmentActivity extends FragmentActivity {
      * @throws IllegalArgumentException if lifecycle is not one of CreateLifecycle,
      * StartLifecycle, ResumeLifecycle or MemoryLifecycle
      */
+    @Override
     public boolean registerLifecycle(Lifecycle lifecycle) {
-        return lifecycles.add(lifecycle);
+        return mvlActivityCore.registerLifecycle(lifecycle);
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     /**
      * Subclasses should unregister any lifecycles here
      * <code>
@@ -144,7 +134,8 @@ public abstract class MVLFragmentActivity extends FragmentActivity {
      * </code>
      * @return true if the lifecycle was found and removed
      */
+    @Override
     public boolean unRegisterLifecycle(Lifecycle lifecycle) {
-        return lifecycles.remove(lifecycle);
+        return mvlActivityCore.unRegisterLifecycle(lifecycle);
     }
 }
