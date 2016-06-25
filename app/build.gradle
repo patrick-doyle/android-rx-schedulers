@@ -33,6 +33,9 @@ android {
 }
 
 dependencies {
+
+    compile project(':library')
+
     //Languages
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
@@ -45,8 +48,6 @@ dependencies {
     //Android
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
 
     //Network
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
@@ -63,9 +64,13 @@ dependencies {
     //RxJava
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
 
     //Testing
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.truth:truth:0.28'
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 }

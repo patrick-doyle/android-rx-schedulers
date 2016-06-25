@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".screens.detail.DetailActivity"/>
+        <activity android:name=".screens.detail.PostActivity"/>
     </application>
 
 </manifest>
