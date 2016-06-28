@@ -16,7 +16,7 @@ public final class CollectionFuncs {
 
     public static <T, R extends T> void forEachType(Collection<T> collection, Class<R> filterClass, Action1<R> function) {
         for (T t : collection) {
-            if(t.getClass().isAssignableFrom(filterClass)) {
+            if(filterClass.isAssignableFrom(t.getClass())) {
                 function.call(filterClass.cast(t));
             }
         }

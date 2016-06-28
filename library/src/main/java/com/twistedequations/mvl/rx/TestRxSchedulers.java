@@ -4,21 +4,25 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DefaultRxSchedulers implements RxSchedulers {
+/**
+ * TestRxSchedulers for testing rx function chains,
+ * forces all Schedulers to execute on the current thread
+ */
+public class TestRxSchedulers implements MVLSchedulers {
 
   @Override
   public Scheduler network() {
-    return Schedulers.io();
+    return Schedulers.immediate();
   }
 
   @Override
   public Scheduler io() {
-    return Schedulers.io();
+    return Schedulers.immediate();
   }
 
   @Override
   public Scheduler computation() {
-    return Schedulers.computation();
+    return Schedulers.immediate();
   }
 
   @Override
@@ -28,6 +32,6 @@ public class DefaultRxSchedulers implements RxSchedulers {
 
   @Override
   public Scheduler mainThread() {
-    return AndroidSchedulers.mainThread();
+    return Schedulers.immediate();
   }
 }

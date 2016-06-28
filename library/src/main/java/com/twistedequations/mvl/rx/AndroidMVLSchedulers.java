@@ -6,7 +6,7 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class AndroidRxSchedulers implements RxSchedulers {
+public class AndroidMVLSchedulers implements MVLSchedulers {
 
   //Limit the threads to prevent cpu thread overloading and to help with context switching
   private static final int PROCESSOR_THREADS = Math.min(2, Runtime.getRuntime().availableProcessors()); //Limit to availableProcessors cores

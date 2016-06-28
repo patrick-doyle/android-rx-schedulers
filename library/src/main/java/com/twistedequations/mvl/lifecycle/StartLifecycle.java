@@ -7,7 +7,5 @@ public interface StartLifecycle extends Lifecycle {
 
     void onStart();
 
-    void onRestart();
-
     void onStop();
 }

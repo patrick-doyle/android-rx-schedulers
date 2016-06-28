@@ -1,10 +1,12 @@
 package com.twistedequations.mvl;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 
-import com.twistedequations.mvl.internal.MVLActivityCore;
+import com.twistedequations.mvl.internal.MVLComponentCore;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
 
 import java.util.Set;
@@ -12,62 +14,50 @@ import java.util.Set;
 import rx.Observable;
 import rx.functions.Action1;
 
-public abstract class MVLBaseActivity extends Activity implements MVLActivity {
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+public class MVLFragment extends Fragment implements MVLComponent {
 
-    private final MVLActivityCore mvlActivityCore = new MVLActivityCore(this);
+    private final MVLComponentCore delegate = new MVLComponentCore(this);
 
     @Override
-    protected final void onCreate(@Nullable Bundle bundle) {
+    public final void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        mvlActivityCore.onCreate(bundle);
+        delegate.onCreate(bundle);
     }
 
     @Override
-    protected final void onStart() {
+    public final void onStart() {
         super.onStart();
-        mvlActivityCore.onStart();
+        delegate.onStart();
     }
 
     @Override
-    protected final void onRestart() {
-        super.onRestart();
-        mvlActivityCore.onRestart();
-    }
-
-    @Override
-    protected final void onResume() {
+    public final void onResume() {
         super.onResume();
-        mvlActivityCore.onResume();
+        delegate.onResume();
     }
 
     @Override
-    protected final void onPause() {
+    public final void onPause() {
         super.onPause();
-        mvlActivityCore.onPause();
+        delegate.onPause();
     }
 
     @Override
-    protected final void onStop() {
+    public final void onStop() {
         super.onStop();
-        mvlActivityCore.onStop();
+        delegate.onStop();
     }
 
     @Override
-    protected final void onDestroy() {
+    public final void onDestroy() {
         super.onDestroy();
-        mvlActivityCore.onDestroy();
+        delegate.onDestroy();
     }
 
     @Override
-    public final void onLowMemory() {
-        super.onLowMemory();
-        mvlActivityCore.onLowMemory();
-    }
-
-    @Override
-    public final void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        mvlActivityCore.onTrimMemory(level);
+    public Observable<Void> backClicks() {
+        return delegate.backClicks();
     }
 
     /**
@@ -75,7 +65,7 @@ public abstract class MVLBaseActivity extends Activity implements MVLActivity {
      */
     @Override
     public Observable<Bundle> getPrevState() {
-        return mvlActivityCore.getPrevState();
+        return delegate.getPrevState();
     }
 
     /**
@@ -89,7 +79,7 @@ public abstract class MVLBaseActivity extends Activity implements MVLActivity {
      */
     @Override
     public void updateSaveState(Action1<Bundle> updateFunction) {
-        mvlActivityCore.updateSaveState(updateFunction);
+        delegate.updateSaveState(updateFunction);
     }
 
     /**
@@ -100,18 +90,18 @@ public abstract class MVLBaseActivity extends Activity implements MVLActivity {
      *     </pre>
      * </code>
      */
-    public void onRegisterLifecycles() {
+    public void main() {
 
     }
 
     @Override
     public final void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(mvlActivityCore.onSaveInstanceState());
+        super.onSaveInstanceState(delegate.currentState());
     }
 
     @Override
     public Set<Lifecycle> getLifecycles() {
-        return mvlActivityCore.getLifecycles();
+        return delegate.getLifecycles();
     }
 
     /**
@@ -122,7 +112,7 @@ public abstract class MVLBaseActivity extends Activity implements MVLActivity {
      */
     @Override
     public boolean registerLifecycle(Lifecycle lifecycle) {
-        return mvlActivityCore.registerLifecycle(lifecycle);
+        return delegate.registerLifecycle(lifecycle);
     }
 
     /**
@@ -136,6 +126,6 @@ public abstract class MVLBaseActivity extends Activity implements MVLActivity {
      */
     @Override
     public boolean unRegisterLifecycle(Lifecycle lifecycle) {
-        return mvlActivityCore.unRegisterLifecycle(lifecycle);
+        return delegate.unRegisterLifecycle(lifecycle);
     }
 }

@@ -1,7 +1,7 @@
 package com.twistedequations.reddit.rsvp.screens.detail.dagger;
 
 import com.squareup.picasso.Picasso;
-import com.twistedequations.mvl.rx.RxSchedulers;
+import com.twistedequations.mvl.rx.MVLSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.reddit.rsvp.screens.detail.PostActivity;
 import com.twistedequations.reddit.rsvp.screens.detail.mvp.PostActivityView;
@@ -28,9 +28,8 @@ public class PostModule {
 
     @Provides
     @PostScope
-    public PostLifecycle homeLifecycle(PostActivityView view, PostModel model,
-                                       RxSchedulers rxSchedulers) {
-        return new PostLifecycle(view, model, rxSchedulers);
+    public PostLifecycle homeLifecycle(PostActivityView view, PostModel model, MVLSchedulers mvlSchedulers) {
+        return new PostLifecycle(view, model, mvlSchedulers);
     }
 
     @Provides

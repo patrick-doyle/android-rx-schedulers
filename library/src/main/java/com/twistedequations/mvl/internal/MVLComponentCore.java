@@ -3,10 +3,9 @@ package com.twistedequations.mvl.internal;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.twistedequations.mvl.MVLActivity;
+import com.twistedequations.mvl.MVLComponent;
 import com.twistedequations.mvl.lifecycle.CreateLifecycle;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
-import com.twistedequations.mvl.lifecycle.MemoryLifecycle;
 import com.twistedequations.mvl.lifecycle.ResumeLifecycle;
 import com.twistedequations.mvl.lifecycle.StartLifecycle;
 
@@ -17,15 +16,16 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.subjects.ReplaySubject;
 
-public class MVLActivityCore implements MVLActivity {
+public class MVLComponentCore implements MVLComponent {
     
-    private final MVLActivity mvlActivity;
+    private final MVLComponent mvlComponent;
     private final Bundle state = new Bundle();
     private final ReplaySubject<Bundle> prevStateSubject = ReplaySubject.create(1);
     private final Set<Lifecycle> lifecycles = new HashSet<>();
+    private final RelayOnSubscribe<Void> backButtonRelay = new RelayOnSubscribe<>();
 
-    public MVLActivityCore(MVLActivity mvlActivity) {
-        this.mvlActivity = mvlActivity;
+    public MVLComponentCore(MVLComponent mvlComponent) {
+        this.mvlComponent = mvlComponent;
     }
 
     @Override
@@ -54,11 +54,16 @@ public class MVLActivityCore implements MVLActivity {
     }
 
     @Override
-    public void onRegisterLifecycles() {
-        mvlActivity.onRegisterLifecycles();
+    public void main() {
+        mvlComponent.main();
     }
 
-    public final Bundle onSaveInstanceState() {
+    @Override
+    public Observable<Void> backClicks() {
+        return Observable.create(backButtonRelay);
+    }
+
+    public final Bundle currentState() {
         return state;
     }
 
@@ -66,16 +71,12 @@ public class MVLActivityCore implements MVLActivity {
         Observable.just(savedInstanceState)
                 .filter(state -> state != null)
                 .subscribe(prevStateSubject);
-        onRegisterLifecycles();
+        main();
         CollectionFuncs.forEachType(lifecycles, CreateLifecycle.class, CreateLifecycle::onCreate);
     }
     
     public final void onStart() {
         CollectionFuncs.forEachType(lifecycles, StartLifecycle.class, StartLifecycle::onStart);
-    }
-
-    public final void onRestart() {
-        CollectionFuncs.forEachType(lifecycles, StartLifecycle.class, StartLifecycle::onRestart);
     }
     
     public final void onResume() {
@@ -93,12 +94,11 @@ public class MVLActivityCore implements MVLActivity {
     public final void onDestroy() {
         CollectionFuncs.forEachType(lifecycles, CreateLifecycle.class, CreateLifecycle::onDestroy);
     }
-    
-    public final void onLowMemory() {
-        CollectionFuncs.forEachType(lifecycles, MemoryLifecycle.class, MemoryLifecycle::onLowMemory);
-    }
 
-    public final void onTrimMemory(int level) {
-        CollectionFuncs.forEachType(lifecycles, MemoryLifecycle.class, memoryLifecycle -> memoryLifecycle.onTrimMemory(level));
+    /**
+     * Return true if there is a subscriber
+     */
+    public final boolean onBack() {
+        return backButtonRelay.sendEvent(null);
     }
 }

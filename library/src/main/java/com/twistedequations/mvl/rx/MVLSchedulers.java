@@ -3,7 +3,7 @@ package com.twistedequations.mvl.rx;
 
 import rx.Scheduler;
 
-public interface RxSchedulers {
+public interface MVLSchedulers {
 
   Scheduler network();
 

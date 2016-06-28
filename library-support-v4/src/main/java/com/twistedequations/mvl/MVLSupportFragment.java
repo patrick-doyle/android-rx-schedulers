@@ -1,8 +1,10 @@
 package com.twistedequations.mvl;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 
 import com.twistedequations.mvl.internal.MVLComponentCore;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
@@ -12,51 +14,45 @@ import java.util.Set;
 import rx.Observable;
 import rx.functions.Action1;
 
-public abstract class MVLCompatActivity extends AppCompatActivity implements MVLComponent {
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+public class MVLSupportFragment extends Fragment implements MVLComponent {
 
     private final MVLComponentCore delegate = new MVLComponentCore(this);
 
     @Override
-    protected final void onCreate(@Nullable Bundle bundle) {
+    public final void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
         delegate.onCreate(bundle);
     }
 
     @Override
-    protected final void onStart() {
+    public final void onStart() {
         super.onStart();
         delegate.onStart();
     }
 
     @Override
-    protected final void onResume() {
+    public final void onResume() {
         super.onResume();
         delegate.onResume();
     }
 
     @Override
-    protected final void onPause() {
+    public final void onPause() {
         super.onPause();
         delegate.onPause();
     }
 
     @Override
-    protected final void onStop() {
+    public final void onStop() {
         super.onStop();
         delegate.onStop();
     }
 
     @Override
-    protected final void onDestroy() {
+    public final void onDestroy() {
         super.onDestroy();
         delegate.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(!delegate.onBack()) {
-            super.onBackPressed();
-        }
     }
 
     @Override

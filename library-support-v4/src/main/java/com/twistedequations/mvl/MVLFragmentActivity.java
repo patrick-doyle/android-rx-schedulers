@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
-import com.twistedequations.mvl.internal.MVLActivityCore;
+import com.twistedequations.mvl.internal.MVLComponentCore;
 import com.twistedequations.mvl.lifecycle.Lifecycle;
 
 import java.util.Set;
@@ -12,62 +12,56 @@ import java.util.Set;
 import rx.Observable;
 import rx.functions.Action1;
 
-public abstract class MVLFragmentActivity extends FragmentActivity  implements MVLActivity {
+public abstract class MVLFragmentActivity extends FragmentActivity implements MVLComponent {
 
-    private final MVLActivityCore mvlActivityCore = new MVLActivityCore(this);
+    private final MVLComponentCore delegate = new MVLComponentCore(this);
 
     @Override
     protected final void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        mvlActivityCore.onCreate(bundle);
+        delegate.onCreate(bundle);
     }
 
     @Override
     protected final void onStart() {
         super.onStart();
-        mvlActivityCore.onStart();
-    }
-
-    @Override
-    protected final void onRestart() {
-        super.onRestart();
-        mvlActivityCore.onRestart();
+        delegate.onStart();
     }
 
     @Override
     protected final void onResume() {
         super.onResume();
-        mvlActivityCore.onResume();
+        delegate.onResume();
     }
 
     @Override
     protected final void onPause() {
         super.onPause();
-        mvlActivityCore.onPause();
+        delegate.onPause();
     }
 
     @Override
     protected final void onStop() {
         super.onStop();
-        mvlActivityCore.onStop();
+        delegate.onStop();
     }
 
     @Override
     protected final void onDestroy() {
         super.onDestroy();
-        mvlActivityCore.onDestroy();
+        delegate.onDestroy();
     }
 
     @Override
-    public final void onLowMemory() {
-        super.onLowMemory();
-        mvlActivityCore.onLowMemory();
+    public void onBackPressed() {
+        if(!delegate.onBack()) {
+            super.onBackPressed();
+        }
     }
 
     @Override
-    public final void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        mvlActivityCore.onTrimMemory(level);
+    public Observable<Void> backClicks() {
+        return delegate.backClicks();
     }
 
     /**
@@ -75,7 +69,7 @@ public abstract class MVLFragmentActivity extends FragmentActivity  implements M
      */
     @Override
     public Observable<Bundle> getPrevState() {
-        return mvlActivityCore.getPrevState();
+        return delegate.getPrevState();
     }
 
     /**
@@ -89,7 +83,7 @@ public abstract class MVLFragmentActivity extends FragmentActivity  implements M
      */
     @Override
     public void updateSaveState(Action1<Bundle> updateFunction) {
-        mvlActivityCore.updateSaveState(updateFunction);
+        delegate.updateSaveState(updateFunction);
     }
 
     /**
@@ -100,18 +94,18 @@ public abstract class MVLFragmentActivity extends FragmentActivity  implements M
      *     </pre>
      * </code>
      */
-    public void onRegisterLifecycles() {
+    public void main() {
 
     }
 
     @Override
     public final void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(mvlActivityCore.onSaveInstanceState());
+        super.onSaveInstanceState(delegate.currentState());
     }
 
     @Override
     public Set<Lifecycle> getLifecycles() {
-        return mvlActivityCore.getLifecycles();
+        return delegate.getLifecycles();
     }
 
     /**
@@ -122,7 +116,7 @@ public abstract class MVLFragmentActivity extends FragmentActivity  implements M
      */
     @Override
     public boolean registerLifecycle(Lifecycle lifecycle) {
-        return mvlActivityCore.registerLifecycle(lifecycle);
+        return delegate.registerLifecycle(lifecycle);
     }
 
     /**
@@ -136,6 +130,6 @@ public abstract class MVLFragmentActivity extends FragmentActivity  implements M
      */
     @Override
     public boolean unRegisterLifecycle(Lifecycle lifecycle) {
-        return mvlActivityCore.unRegisterLifecycle(lifecycle);
+        return delegate.unRegisterLifecycle(lifecycle);
     }
 }

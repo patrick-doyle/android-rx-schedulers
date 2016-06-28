@@ -34,7 +34,7 @@ android {
 
 dependencies {
 
-    compile project(':library')
+    compile project(':library-appcomat-v7')
 
     //Languages
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

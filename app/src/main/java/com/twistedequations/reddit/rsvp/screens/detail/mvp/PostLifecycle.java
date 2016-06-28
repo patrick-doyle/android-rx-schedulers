@@ -1,7 +1,7 @@
 package com.twistedequations.reddit.rsvp.screens.detail.mvp;
 
 import com.twistedequations.mvl.lifecycle.CreateLifecycle;
-import com.twistedequations.mvl.rx.RxSchedulers;
+import com.twistedequations.mvl.rx.MVLSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditListing;
 
@@ -18,12 +18,12 @@ public class PostLifecycle implements CreateLifecycle {
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private final PostModel postModel;
     private final PostActivityView postActivityView;
-    private final RxSchedulers rxSchedulers;
+    private final MVLSchedulers mvlSchedulers;
 
-    public PostLifecycle(PostActivityView postActivityView, PostModel postModel, RxSchedulers rxSchedulers) {
+    public PostLifecycle(PostActivityView postActivityView, PostModel postModel, MVLSchedulers mvlSchedulers) {
         this.postModel = postModel;
         this.postActivityView = postActivityView;
-        this.rxSchedulers = rxSchedulers;
+        this.mvlSchedulers = mvlSchedulers;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PostLifecycle implements CreateLifecycle {
         final Subscription postSub = listPublishSubject.map((redditListings -> redditListings.get(0)))
                 .map(redditListing -> redditListing.data.children.get(0).data)
                 .onErrorResumeNext(throwable -> Observable.empty())
-                .observeOn(rxSchedulers.mainThread())
+                .observeOn(mvlSchedulers.mainThread())
                 .subscribe(postActivityView::setRedditItem);
 
         final Observable<List<RedditItem>> networkItems = listPublishSubject.map((redditListings -> redditListings.get(1)))
@@ -55,13 +55,13 @@ public class PostLifecycle implements CreateLifecycle {
                         .toList());
 
         final Subscription commentSub = Observable.concat(postModel.getCommentsFromState(), networkItems)
-                .observeOn(rxSchedulers.mainThread())
+                .observeOn(mvlSchedulers.mainThread())
                 .doOnNext(postModel::saveComentsState)
                 .subscribe(postActivityView::setCommentList);
 
         final Subscription subscription = Observable.just(postModel.getIntentRedditItem())
                 .flatMap(redditItem -> postModel.getCommentsForPost(redditItem.subreddit, redditItem.id))
-                .subscribeOn(rxSchedulers.network())
+                .subscribeOn(mvlSchedulers.network())
                 .subscribe(listPublishSubject);
 
         compositeSubscription.add(subscription);
