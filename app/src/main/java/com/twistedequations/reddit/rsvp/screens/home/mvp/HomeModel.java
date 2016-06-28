@@ -24,10 +24,12 @@ public class HomeModel {
     }
 
     public Observable<RedditListing> postsForAll() {
-        return redditService.postsForAll()
-                .doOnNext(redditListing ->
-                        homeActivity.updateSaveState(bundle ->
-                                bundle.putParcelable("reddit_listing", redditListing)));
+        return redditService.postsForAll();
+    }
+
+    public RedditListing saveRedditListing(RedditListing redditListing) {
+        homeActivity.updateSaveState(bundle -> bundle.putParcelable("reddit_listing", redditListing));
+        return redditListing;
     }
 
     public void startDetailActivity(RedditItem item) {

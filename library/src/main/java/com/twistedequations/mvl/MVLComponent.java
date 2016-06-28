@@ -7,6 +7,7 @@ import com.twistedequations.mvl.lifecycle.Lifecycle;
 import java.util.Set;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 
 public interface MVLComponent {

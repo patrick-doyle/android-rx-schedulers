@@ -10,6 +10,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func3;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
 
@@ -28,7 +29,7 @@ public class PostLifecycle implements CreateLifecycle {
 
     @Override
     public void onCreate() {
-        compositeSubscription.add(subscribeToComments());
+        compositeSubscription.add(loadCommentsFunc.call(postActivityView, postModel, mvlSchedulers));
     }
 
     @Override
@@ -36,18 +37,18 @@ public class PostLifecycle implements CreateLifecycle {
         compositeSubscription.clear();
     }
 
-    private Subscription subscribeToComments() {
+    private static final Func3<PostActivityView, PostModel, MVLSchedulers, Subscription> loadCommentsFunc = (postActivityView, postModel, mvlSchedulers) -> {
 
         final CompositeSubscription compositeSubscription = new CompositeSubscription();
         final PublishSubject<List<RedditListing>> listPublishSubject = PublishSubject.create();
 
-        final Subscription postSub = listPublishSubject.map((redditListings -> redditListings.get(0)))
+        final Subscription postSub = listPublishSubject.map(redditListings -> redditListings.get(0))
                 .map(redditListing -> redditListing.data.children.get(0).data)
                 .onErrorResumeNext(throwable -> Observable.empty())
                 .observeOn(mvlSchedulers.mainThread())
                 .subscribe(postActivityView::setRedditItem);
 
-        final Observable<List<RedditItem>> networkItems = listPublishSubject.map((redditListings -> redditListings.get(1)))
+        final Observable<List<RedditItem>> networkItems = listPublishSubject.map(redditListings -> redditListings.get(1))
                 .map(redditListing -> redditListing.data.children)
                 .onErrorResumeNext(throwable -> Observable.just(Collections.emptyList()))
                 .flatMap(children -> Observable.from(children)
@@ -68,5 +69,5 @@ public class PostLifecycle implements CreateLifecycle {
         compositeSubscription.add(postSub);
         compositeSubscription.add(commentSub);
         return compositeSubscription;
-    }
+    };
 }

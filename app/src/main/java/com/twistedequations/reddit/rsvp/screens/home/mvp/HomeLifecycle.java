@@ -38,22 +38,25 @@ public class HomeLifecycle implements CreateLifecycle {
 
     private static final Func3<HomeView, HomeModel, MVLSchedulers, Observable<List<RedditItem>>> loadRedditItemsFunc
             = (homeView, homeModel, mvlSchedulers) -> Observable.just(null)
-            .doOnEach(notification -> homeView.setLoading(true))
+            .doOnNext(notification -> homeView.setLoading(true))
             .observeOn(mvlSchedulers.network())
-            .switchMap(aVoid -> homeModel.getSavedRedditListing())
-            .concatWith(homeModel.postsForAll())
+
+            .switchMap(aVoid -> homeModel.getSavedRedditListing()
+                    .concatWith(homeModel.postsForAll().map(homeModel::saveRedditListing)))
+
             .map(redditData -> redditData.data.children)
-            .flatMap(Observable::from)
-            .map(child -> child.data)
-            .filter(redditItem -> !redditItem.over18)
-            .toList()
+            .flatMap(redditItems -> Observable.from(redditItems)
+                    .map(child -> child.data)
+                    .filter(redditItem -> !redditItem.over18)
+                    .toList())
+
             .observeOn(mvlSchedulers.mainThread())
-            .doOnEach(notification -> homeView.setLoading(false));
+            .doOnNext(notification -> homeView.setLoading(false));
 
     private static final Func3<HomeView, HomeModel, MVLSchedulers, Subscription> loadPostsFunc
             = (homeView, homeModel, mvlSchedulers) -> Observable.just(null)
             .mergeWith(homeView.refreshMenuClick())
-            .mergeWith(homeView.errorRetryClick())
+            .mergeWith(homeView.errorRetryClick()) 
             .flatMap(aVoid -> loadRedditItemsFunc.call(homeView, homeModel, mvlSchedulers))
             .doOnError(Throwable::printStackTrace)
             .subscribe(homeView::setRedditItems, throwable -> homeView.showError());
