@@ -1,1 +1,1 @@
-include ':app', ':library', ':library-support-v4', ':library-appcomat-v7'
+include ':app', ':rxmvl', ':rxmvl-support-v4', ':rxmvl-appcompat-v7'

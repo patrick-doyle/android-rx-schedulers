@@ -17,7 +17,6 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles fileTree(dir: 'proguard')
         }
         release {
             minifyEnabled false
@@ -30,11 +29,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
 }
 
 dependencies {
 
-    compile project(':library-appcomat-v7')
+    compile project(':rxmvl-appcompat-v7')
 
     //Languages
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -73,5 +79,4 @@ dependencies {
     testCompile 'com.google.truth:truth:0.28'
     testCompile 'org.mockito:mockito-core:1.10.19'
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 }
