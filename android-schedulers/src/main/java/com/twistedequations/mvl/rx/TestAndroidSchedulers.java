@@ -24,6 +24,11 @@ public class TestAndroidSchedulers implements AndroidSchedulers {
   }
 
   @Override
+  public Scheduler newThread() {
+    return Schedulers.immediate();
+  }
+
+  @Override
   public Scheduler immediate() {
     return Schedulers.immediate();
   }
