@@ -1,13 +1,13 @@
 package com.twistedequations.reddit.rsvp.screens.home.dagger;
 
 import com.squareup.picasso.Picasso;
-import com.twistedequations.mvl.rx.MVLSchedulers;
+import com.twistedequations.mvl.rx.AndroidSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.reddit.rsvp.screens.home.HomeActivity;
-import com.twistedequations.reddit.rsvp.screens.home.mvp.DefaultHomeView;
-import com.twistedequations.reddit.rsvp.screens.home.mvp.HomeLifecycle;
-import com.twistedequations.reddit.rsvp.screens.home.mvp.HomeModel;
-import com.twistedequations.reddit.rsvp.screens.home.mvp.HomeView;
+import com.twistedequations.reddit.rsvp.screens.home.mvl.DefaultHomeView;
+import com.twistedequations.reddit.rsvp.screens.home.mvl.HomeLifecycle;
+import com.twistedequations.reddit.rsvp.screens.home.mvl.HomeModel;
+import com.twistedequations.reddit.rsvp.screens.home.mvl.HomeView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -29,8 +29,8 @@ import dagger.Provides;
 
         @Provides
         @HomeScope
-        public HomeLifecycle homeLifecycle(HomeView homeView, HomeModel homeModel, MVLSchedulers mvlSchedulers) {
-            return new HomeLifecycle(homeView, homeModel, mvlSchedulers);
+        public HomeLifecycle homeLifecycle(HomeView homeView, HomeModel homeModel, AndroidSchedulers androidSchedulers) {
+            return new HomeLifecycle(homeView, homeModel, androidSchedulers);
         }
 
         @Provides

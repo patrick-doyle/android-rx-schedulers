@@ -1,1 +1,1 @@
-include ':app', ':rxmvl', ':rxmvl-support-v4', ':rxmvl-appcompat-v7'
+include ':app', ':android-schedulers'

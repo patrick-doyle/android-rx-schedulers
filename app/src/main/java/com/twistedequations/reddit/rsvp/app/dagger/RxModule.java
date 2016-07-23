@@ -1,7 +1,7 @@
 package com.twistedequations.reddit.rsvp.app.dagger;
 
-import com.twistedequations.mvl.rx.AndroidMVLSchedulers;
-import com.twistedequations.mvl.rx.MVLSchedulers;
+import com.twistedequations.mvl.rx.DefaultAndroidSchedulers;
+import com.twistedequations.mvl.rx.AndroidSchedulers;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,7 +11,7 @@ public class RxModule {
 
     @AppScope
     @Provides
-    public MVLSchedulers rxSchedulers() {
-        return new AndroidMVLSchedulers();
+    public AndroidSchedulers rxSchedulers() {
+        return new DefaultAndroidSchedulers();
     }
 }

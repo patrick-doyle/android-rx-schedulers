@@ -7,13 +7,13 @@ version = project.property('maven.version')
 install {
     repositories.mavenInstaller {
         pom.project {
-            name 'Android RxMVL'
-            description 'RxMVL helper library for android'
+            name 'Android Rx Schedulers'
+            description 'Android Optimised Rx Schedulers'
             url 'https://github.com/TwistedEquations/android-rxmvl'
             inceptionYear '2016'
 
             packaging 'aar'
-            groupId 'com.twistedequations'
+            groupId 'com.twistedequations.rx'
             version = project.property('maven.version')
 
             licenses {
@@ -23,16 +23,18 @@ install {
                     distribution 'repo'
                 }
             }
+
             scm {
                 connection 'https://github.com/TwistedEquations/android-rxmvl.git'
                 url 'https://github.com/TwistedEquations/android-rxmvl'
-
             }
+
             developers {
                 developer {
                     name 'Patrick Doyle'
                 }
             }
+
         }
     }
 }
@@ -69,7 +71,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'maven'
-        name = 'android-rxmvl'
+        name = 'andorid-schedulers'
         userOrg = user
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/TwistedEquations/android-rxmvl.git'

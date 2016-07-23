@@ -24,6 +24,7 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -40,7 +41,7 @@ android {
 
 dependencies {
 
-    compile project(':rxmvl-appcompat-v7')
+    compile project(':android-schedulers')
 
     //Languages
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -73,6 +74,7 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
+    compile "com.twistedequations.rx:rx-savestate:1.0.0"
 
     //Testing
     testCompile 'junit:junit:4.12'

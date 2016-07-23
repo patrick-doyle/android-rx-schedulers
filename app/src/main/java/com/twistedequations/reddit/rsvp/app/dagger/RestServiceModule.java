@@ -1,7 +1,7 @@
 package com.twistedequations.reddit.rsvp.app.dagger;
 
 import com.google.gson.Gson;
-import com.twistedequations.mvl.rx.MVLSchedulers;
+import com.twistedequations.mvl.rx.AndroidSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 
 import javax.inject.Named;
@@ -19,10 +19,10 @@ public class RestServiceModule {
     @AppScope
     @Provides
     @Named("RedditServiceRetrofit")
-    public Retrofit retrofit(OkHttpClient okHttpClient, Gson gson, MVLSchedulers mvlSchedulers) {
+    public Retrofit retrofit(OkHttpClient okHttpClient, Gson gson, AndroidSchedulers androidSchedulers) {
         return new Retrofit.Builder()
                 .baseUrl("https://www.reddit.com/")
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(mvlSchedulers.network()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(androidSchedulers.network()))
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
