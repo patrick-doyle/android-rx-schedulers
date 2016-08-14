@@ -1,0 +1,8 @@
+apply from: '../common-maven.gradle'
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            artifactId 'rx-andorid-schedulers'
+        }
+    }
+}
