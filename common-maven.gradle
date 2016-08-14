@@ -9,7 +9,7 @@ install {
         pom.project {
             name 'Android Rx Schedulers'
             description 'Android Optimised Rx Schedulers'
-            url 'https://github.com/TwistedEquations/android-rxmvl'
+            url 'https://github.com/TwistedEquations/android-rx-schedulers'
             inceptionYear '2016'
 
             packaging 'aar'
@@ -25,8 +25,8 @@ install {
             }
 
             scm {
-                connection 'https://github.com/TwistedEquations/android-rxmvl.git'
-                url 'https://github.com/TwistedEquations/android-rxmvl'
+                connection 'https://github.com/TwistedEquations/android-rx-schedulers.git'
+                url 'https://github.com/TwistedEquations/android-rx-schedulers'
             }
 
             developers {
@@ -74,7 +74,7 @@ bintray {
         name = 'rx-android-schedulers'
         userOrg = user
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/TwistedEquations/android-rxmvl.git'
+        vcsUrl = 'https://github.com/TwistedEquations/android-rx-schedulers.git'
         publish = true
     }
 }

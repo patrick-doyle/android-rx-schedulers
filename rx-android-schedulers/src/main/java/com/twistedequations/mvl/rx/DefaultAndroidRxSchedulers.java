@@ -1,18 +1,16 @@
 package com.twistedequations.mvl.rx;
 
 import com.twistedequations.mvl.rx.internal.AndroidThreadFactory;
-import com.twistedequations.mvl.rx.internal.AndroidRxSchedulersHook;
 
 import java.util.concurrent.Executors;
 
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
 
 /**
  * Android implementation of AndroidRxSchedulers. This uses a custom thread factory and thread pools
- * for greater efficiency of Android limited resources such as bandwidth and cpu usage
+ * for greater efficiency of Android limited resources such as bandwidth
  *
  * Network - Limited to 6 threads, supports Priority
  * IO - All non network IO, Capped at 6 threads
