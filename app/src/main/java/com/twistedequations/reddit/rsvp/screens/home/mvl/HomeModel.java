@@ -3,7 +3,6 @@ package com.twistedequations.reddit.rsvp.screens.home.mvl;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditListing;
-import com.twistedequations.reddit.rsvp.screens.detail.PostActivity;
 import com.twistedequations.reddit.rsvp.screens.home.HomeActivity;
 import com.twistedequations.rxstate.RxSaveState;
 
@@ -31,9 +30,5 @@ public class HomeModel {
     public RedditListing saveRedditListing(RedditListing redditListing) {
         RxSaveState.updateSaveState(homeActivity, bundle -> bundle.putParcelable("reddit_listing", redditListing));
         return redditListing;
-    }
-
-    public void startDetailActivity(RedditItem item) {
-        PostActivity.start(homeActivity, item);
     }
 }

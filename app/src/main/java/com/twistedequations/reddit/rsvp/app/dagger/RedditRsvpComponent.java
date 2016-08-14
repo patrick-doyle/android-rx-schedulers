@@ -3,7 +3,7 @@ package com.twistedequations.reddit.rsvp.app.dagger;
 import android.content.Context;
 
 import com.squareup.picasso.Picasso;
-import com.twistedequations.mvl.rx.AndroidSchedulers;
+import com.twistedequations.mvl.rx.AndroidRxSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 
 import dagger.Component;
@@ -16,7 +16,7 @@ public interface RedditRsvpComponent {
 
     Picasso picasso();
 
-    AndroidSchedulers rxSchedulers();
+    AndroidRxSchedulers rxSchedulers();
 
     RedditService redditService();
 }

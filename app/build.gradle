@@ -41,7 +41,7 @@ android {
 
 dependencies {
 
-    compile project(':android-schedulers')
+    compile project(':rx-android-schedulers')
 
     //Languages
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

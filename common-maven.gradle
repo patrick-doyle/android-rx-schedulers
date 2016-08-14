@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.twistedequations'
+group = 'com.twistedequations.rx'
 version = project.property('maven.version')
 
 install {
@@ -71,7 +71,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'maven'
-        name = 'andorid-schedulers'
+        name = 'rx-android-schedulers'
         userOrg = user
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/TwistedEquations/android-rxmvl.git'

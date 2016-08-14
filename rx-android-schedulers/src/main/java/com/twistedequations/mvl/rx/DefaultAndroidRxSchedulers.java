@@ -1,17 +1,20 @@
 package com.twistedequations.mvl.rx;
 
 import com.twistedequations.mvl.rx.internal.AndroidThreadFactory;
+import com.twistedequations.mvl.rx.internal.AndroidRxSchedulersHook;
 
 import java.util.concurrent.Executors;
 
 import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
 
 /**
  * Android implementation of AndroidRxSchedulers. This uses a custom thread factory and thread pools
- * for greater efficiency of Android limited resources such as bandwidth
+ * for greater efficiency of Android limited resources such as bandwidth and cpu usage
  *
- * Network - Limited to 4 threads, supports Priority
+ * Network - Limited to 6 threads, supports Priority
  * IO - All non network IO, Capped at 6 threads
  * Computation - Limited CPU core count, at least 2 threads
  * Immediate - On the current thread
@@ -19,8 +22,8 @@ import rx.schedulers.Schedulers;
 public class DefaultAndroidRxSchedulers implements AndroidRxSchedulers {
 
   //Limit the threads to prevent cpu thread overloading and to help with context switching
-  private static final int PROCESSOR_THREADS = Math.min(2, Runtime.getRuntime().availableProcessors()); //Limit to availableProcessors cores
-  private static final int NETWORK_THREADS = 4; //Prevent network overloading, number taken from volley library thread count
+  private static final int PROCESSOR_THREADS = Math.max(2, Runtime.getRuntime().availableProcessors()); //Limit to availableProcessors cores
+  private static final int NETWORK_THREADS = 6; //Prevent network overloading, number taken from volley library thread count
   private static final int IO_THREADS = 6; //Prevent overloading the disk IO
 
   private static final Scheduler NETWORK_EXECUTOR = Schedulers.from(Executors.newFixedThreadPool(NETWORK_THREADS, new AndroidThreadFactory("network")));
@@ -54,6 +57,6 @@ public class DefaultAndroidRxSchedulers implements AndroidRxSchedulers {
 
   @Override
   public Scheduler mainThread() {
-    return rx.android.schedulers.AndroidSchedulers.mainThread();
+    return AndroidSchedulers.mainThread();
   }
 }

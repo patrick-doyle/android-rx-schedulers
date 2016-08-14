@@ -1,44 +1,68 @@
-.gradle
-/local.properties
-/gradle.properties
-/.idea/workspace.xml
-.DS_Store
-/captures/*
-/captures
+############
+# IntelliJ #
+############
 
-# built application files
-*.apk
-*.ap_
-
-# files for the dex VM
-*.dex
-
-# Java class files
-*.class
-
-# generated files
-bin/
-gen/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Eclipse project files
-.classpath
-.project
-
-# Android Studio
-.idea/
-.gradle
-/*/local.properties
-/*/out
-/*/*/build
-build/*
-/*/*/production
 *.iml
-*.iws
 *.ipr
+*.iws
+.idea/
+out/
+
+##########
+# Gradle #
+##########
+
+.gradle/
+build/
+
+##################
+# Android Studio #
+##################
+
+local.properties
+*Test Results*.html
+captures/*
+
+##########
+# Mac OS #
+##########
+
+.DS_Store
+
+##########################
+# Linux temporary files #
+##########################
+
 *~
-*.swp
-*config*
-**Test Results**.html
+
+
+###############################
+# Android studio config files #
+###############################
+
+!.idea/codeStyleSettings.xml
+!.idea/copyright/profiles_settings.xml
+
+###############################
+# Server Gitignore files #
+###############################
+*.DS_Store
+*.iml
+**/*.iml
+*.ipr
+*.iws
+.gradle
+.idea
+build
+out
+classes
+
+#Eclipse
+
+**/*.project
+**/*.classpath
+.metadata
+bin/
+tmp/
+local.properties
+.settings/

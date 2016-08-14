@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.twistedequations.reddit.rsvp.app.RsvpApplication;
 import com.twistedequations.reddit.rsvp.screens.home.dagger.DaggerHomeActivityComponent;
 import com.twistedequations.reddit.rsvp.screens.home.dagger.HomeModule;
-import com.twistedequations.reddit.rsvp.screens.home.mvl.HomeLifecycle;
+import com.twistedequations.reddit.rsvp.screens.home.mvl.HomePresenter;
 import com.twistedequations.reddit.rsvp.screens.home.mvl.HomeView;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ public class HomeActivity extends AppCompatActivity {
   HomeView homeView;
 
   @Inject
-  HomeLifecycle homeLifecycle;
+  HomePresenter presenter;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,5 +30,12 @@ public class HomeActivity extends AppCompatActivity {
             .build().inject(this);
 
     setContentView(homeView.getView());
+    presenter.onCreate();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    presenter.onDestroy();
   }
 }
