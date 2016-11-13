@@ -1,4 +1,4 @@
-package com.twistedequations.mvl.rx.internal;
+package com.twistedequations.rx2.internal;
 
 import android.os.Process;
 import android.support.annotation.NonNull;

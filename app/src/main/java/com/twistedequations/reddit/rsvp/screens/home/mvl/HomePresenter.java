@@ -1,6 +1,6 @@
 package com.twistedequations.reddit.rsvp.screens.home.mvl;
 
-import com.twistedequations.mvl.rx.AndroidRxSchedulers;
+import com.twistedequations.rx.AndroidRxSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.models.RedditItem;
 
 import java.util.List;

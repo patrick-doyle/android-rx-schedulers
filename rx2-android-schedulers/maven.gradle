@@ -1,0 +1,18 @@
+apply from: '../common-maven.gradle'
+
+group = 'com.twistedequations.rx2'
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            artifactId 'rx2-android-schedulers'
+            groupId 'com.twistedequations.rx2'
+        }
+    }
+}
+
+bintray {
+    pkg {
+        name = 'rx2-android-schedulers'
+    }
+}

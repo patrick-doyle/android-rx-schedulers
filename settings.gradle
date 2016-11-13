@@ -1,1 +1,1 @@
-include ':app', ':rx-android-schedulers'
+include ':app', ':rx-android-schedulers', ':rx2-android-schedulers'

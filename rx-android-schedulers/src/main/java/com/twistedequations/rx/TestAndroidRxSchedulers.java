@@ -1,31 +1,31 @@
-package com.twistedequations.mvl.rx;
+package com.twistedequations.rx;
 
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 /**
- * Same schedulers as standard RxJava and RxAndroid
+ * TestAndroidRxSchedulers for testing rx function chains, forces all tasks to execute on the current thread
  */
-public class DefaultRxSchedulers implements AndroidRxSchedulers {
+public class TestAndroidRxSchedulers implements AndroidRxSchedulers {
 
   @Override
   public Scheduler network() {
-    return Schedulers.io();
+    return Schedulers.immediate();
   }
 
   @Override
   public Scheduler io() {
-    return Schedulers.io();
+    return Schedulers.immediate();
   }
 
   @Override
   public Scheduler computation() {
-    return Schedulers.computation();
+    return Schedulers.immediate();
   }
 
   @Override
   public Scheduler newThread() {
-    return Schedulers.newThread();
+    return Schedulers.immediate();
   }
 
   @Override
@@ -35,6 +35,6 @@ public class DefaultRxSchedulers implements AndroidRxSchedulers {
 
   @Override
   public Scheduler mainThread() {
-    return rx.android.schedulers.AndroidSchedulers.mainThread();
+    return Schedulers.immediate();
   }
 }

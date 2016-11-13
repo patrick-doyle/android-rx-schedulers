@@ -1,6 +1,6 @@
-package com.twistedequations.mvl.rx;
+package com.twistedequations.rx;
 
-import com.twistedequations.mvl.rx.internal.AndroidRxSchedulersHook;
+import com.twistedequations.rx.internal.AndroidRxSchedulersHook;
 
 import rx.plugins.RxJavaPlugins;
 

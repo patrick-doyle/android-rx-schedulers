@@ -1,4 +1,4 @@
-package com.twistedequations.mvl.rx;
+package com.twistedequations.rx;
 
 import rx.Scheduler;
 

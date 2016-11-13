@@ -1,12 +1,12 @@
-package com.twistedequations.mvl.rx;
+package com.twistedequations.rx2;
 
-import com.twistedequations.mvl.rx.internal.AndroidThreadFactory;
+import com.twistedequations.rx2.internal.AndroidThreadFactory;
 
 import java.util.concurrent.Executors;
 
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Android implementation of AndroidRxSchedulers. This uses a custom thread factory and thread pools

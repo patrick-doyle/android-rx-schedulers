@@ -1,7 +1,7 @@
 package com.twistedequations.reddit.rsvp.screens.home.dagger;
 
 import com.squareup.picasso.Picasso;
-import com.twistedequations.mvl.rx.AndroidRxSchedulers;
+import com.twistedequations.rx.AndroidRxSchedulers;
 import com.twistedequations.reddit.rsvp.network.reddit.RedditService;
 import com.twistedequations.reddit.rsvp.screens.home.HomeActivity;
 import com.twistedequations.reddit.rsvp.screens.home.mvl.DefaultHomeView;
