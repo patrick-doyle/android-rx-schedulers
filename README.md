@@ -1,7 +1,7 @@
 # Android Rx Android Schedulers
 
 ```groovy
-    compile 'com.twistedequations.rx:android-schedulers:1.1.0'
+    compile 'com.twistedequations.rx:rx-android-schedulers:1.1.0'
 ```
 
 Wrapper class around the RxSchedulers that can be used to make then injectable and thus can be swapped out for testing.
